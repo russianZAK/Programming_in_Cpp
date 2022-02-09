@@ -8,20 +8,20 @@ class Dot
 {
 protected:
     int count_of_arr;
-    int **arr;
+    double **arr;
 
 public:
     Dot()
     {
     }
-    Dot(int **array, int count_of_arr)
+    Dot(double **array, int count_of_arr)
     {
         this->count_of_arr = count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
 
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -31,16 +31,19 @@ public:
                 arr[i][j] = array[i][j];
             }
         }
+        cout << "Dots with coordinates";
+        show_arr();
+        cout << " has created!" << endl;
     }
 
     Dot(const Dot &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
 
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -55,10 +58,10 @@ public:
     Dot &operator=(const Dot &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -76,7 +79,7 @@ public:
     {
         for (int i = 0; i < count_of_arr; i++)
         {
-            cout << "{";
+            cout << " {";
             for (int j = 0; j < 2; j++)
             {
                 if (j % 2 != 0)
@@ -100,17 +103,17 @@ public:
     Broken_line()
     {
     }
-    Broken_line(int **array, int count_of_arr) : Dot(array, count_of_arr)
+    Broken_line(double **array, int count_of_arr) : Dot(array, count_of_arr)
     {
     }
     Broken_line(const Broken_line &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
 
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -125,10 +128,10 @@ public:
     Broken_line &operator=(const Broken_line &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -147,17 +150,18 @@ class Closed_line : public Broken_line
 {
 public:
     Closed_line() {}
-    Closed_line(int **array, int count_of_arr) : Broken_line(array, count_of_arr)
+    Closed_line(double **array, int count_of_arr) : Broken_line(array, count_of_arr)
     {
+
     }
     Closed_line(const Closed_line &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
 
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -172,10 +176,10 @@ public:
     Closed_line &operator=(const Closed_line &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -189,7 +193,7 @@ public:
         return *this;
     }
 
-    double search_perimeter()
+    void search_perimeter()
     {
         double perimeter;
         for (int i = count_of_arr - 1; i > 0; i--)
@@ -197,10 +201,11 @@ public:
             perimeter += pow(pow(arr[i][1] - arr[i - 1][1], 2) + pow(arr[i][0] - arr[i - 1][0], 2), 0.5);
         }
 
-        return perimeter;
+        cout << "Perimeter is " << perimeter;
+
     }
 
-    double search_square()
+    void search_square()
     {
         double square, summ1, summ2;
         double count = count_of_arr;
@@ -212,7 +217,7 @@ public:
         }
         square = abs(summ1 - summ2) / 2;
 
-        return square;
+        cout << "Square is " << square;
     }
 };
 
@@ -220,17 +225,17 @@ class Polygon : public Closed_line
 {
 public:
     Polygon() {}
-    Polygon(int **array, int count_of_arr) : Closed_line(array, count_of_arr)
+    Polygon(double **array, int count_of_arr) : Closed_line(array, count_of_arr)
     {
     }
     Polygon(const Polygon &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
 
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -245,10 +250,10 @@ public:
     Polygon &operator=(const Polygon &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -267,17 +272,17 @@ class Triangle : public Closed_line
 {
 public:
     Triangle() {}
-    Triangle(int **array, int count_of_arr) : Closed_line(array, count_of_arr)
+    Triangle(double **array, int count_of_arr) : Closed_line(array, count_of_arr)
     {
     }
     Triangle(const Triangle &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
 
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -292,10 +297,10 @@ public:
     Triangle &operator=(const Triangle &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -315,17 +320,17 @@ class Trapezoid : public Closed_line
 {
 public:
     Trapezoid() {}
-    Trapezoid(int **array, int count_of_arr) : Closed_line(array, count_of_arr)
+    Trapezoid(double **array, int count_of_arr) : Closed_line(array, count_of_arr)
     {
     }
     Trapezoid(const Trapezoid &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
 
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -340,10 +345,10 @@ public:
     Trapezoid &operator=(const Trapezoid &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -363,17 +368,17 @@ class Regular_polygon : public Closed_line
 {
 public:
     Regular_polygon() {}
-    Regular_polygon(int **array, int count_of_arr) : Closed_line(array, count_of_arr)
+    Regular_polygon(double **array, int count_of_arr) : Closed_line(array, count_of_arr)
     {
     }
     Regular_polygon(const Regular_polygon &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
-        arr = new int *[count_of_arr];
+        arr = new double *[count_of_arr];
 
         for (int i = 0; i < count_of_arr; i++)
         {
-            arr[i] = new int[2];
+            arr[i] = new double[2];
         }
 
         for (int i = 0; i < count_of_arr; i++)
@@ -386,6 +391,38 @@ public:
     }
 
     Regular_polygon &operator=(const Regular_polygon &prev_arr)
+    {
+        count_of_arr = prev_arr.count_of_arr;
+        arr = new double *[count_of_arr];
+        for (int i = 0; i < count_of_arr; i++)
+        {
+            arr[i] = new double[2];
+        }
+
+        for (int i = 0; i < count_of_arr; i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                arr[i][j] = prev_arr.arr[i][j];
+            }
+        }
+
+        return *this;
+    }
+
+};
+
+
+class Polynomial
+{
+private:
+    double *arr;
+    int capacity;
+public:
+    Polynomial() {}
+    
+
+   /* Polynomial &operator=(const Polynomial &prev_arr)
     {
         count_of_arr = prev_arr.count_of_arr;
         arr = new int *[count_of_arr];
@@ -403,17 +440,19 @@ public:
         }
 
         return *this;
-    }
+    }*/
 
 };
 
+
+
 int main(int argc, char *argv[])
 {
-    int **array_me;
-    array_me = new int *[4];
+    double **array_me;
+    array_me = new double *[4];
     for (int i = 0; i < 4; i++)
     {
-        array_me[i] = new int[2];
+        array_me[i] = new double[2];
     }
 
     for (int i = 0; i < 4; i++)
@@ -425,11 +464,11 @@ int main(int argc, char *argv[])
         }
     }
 
-    int **array_notme;
-    array_notme = new int *[4];
+    double **array_notme;
+    array_notme = new double *[4];
     for (int i = 0; i < 4; i++)
     {
-        array_notme[i] = new int[2];
+        array_notme[i] = new double[2];
     }
 
     for (int i = 0; i < 4; i++)
@@ -441,11 +480,11 @@ int main(int argc, char *argv[])
         }
     }
 
-    int **arr_ex;
-    arr_ex = new int *[5];
+    double **arr_ex;
+    arr_ex = new double *[5];
     for (int i = 0; i < 5; i++)
     {
-        arr_ex[i] = new int[2];
+        arr_ex[i] = new double[2];
     }
 
     arr_ex[0][0] = {1};
@@ -458,6 +497,24 @@ int main(int argc, char *argv[])
     arr_ex[3][1] = {1};
     arr_ex[4][0] = {1};
     arr_ex[4][1] = {1};
+
+    double **arr_ex1;
+    arr_ex1 = new double *[5];
+    for (int i = 0; i < 5; i++)
+    {
+        arr_ex1[i] = new double[2];
+    }
+
+    arr_ex1[0][0] = {1};
+    arr_ex1[0][1] = {1};
+    arr_ex1[1][0] = {2};
+    arr_ex1[1][1] = {2};
+    arr_ex1[2][0] = {3};
+    arr_ex1[2][1] = {3};
+    arr_ex1[3][0] = {4};
+    arr_ex1[3][1] = {4};
+    arr_ex1[4][0] = {1};
+    arr_ex1[4][1] = {1};
     
     
 
@@ -469,7 +526,12 @@ int main(int argc, char *argv[])
     Broken_line line(array_notme, 4);
     Broken_line line2 = line;*/
     Regular_polygon close_line(arr_ex, 5);
-    close_line.show_arr();
+    Regular_polygon c(arr_ex1, 5);
+    c = close_line;
+    c.search_square();
+
     // TODO Организовать иерархию периметров
     return 0;
+    // СОздать файл с фигурами и нахождение все красиво
+    // Заменить массив инт на массив дабл
 }
