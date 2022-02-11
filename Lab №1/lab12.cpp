@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 class Polynomial
@@ -10,10 +11,10 @@ private:
 public:
     Polynomial()
     {
-        cout << endl;
         cout << "Enter capacity of polynomial: ";
         cin >> capacity;
-        arr = new double[capacity];
+        arr = new double[++capacity];
+        capacity--;
         cout << "Enter odds: \n";
         for (int i = capacity; i > 0; i--)
         {
@@ -25,14 +26,15 @@ public:
 
     Polynomial(int capacity)
     {
-        arr = new double[capacity];
-        this->capacity = capacity;
+        arr = new double[++capacity];
+        this->capacity = --capacity;
     }
 
     Polynomial(const Polynomial &prev_arr)
     {
         capacity = prev_arr.capacity;
-        arr = new double[capacity];
+        arr = new double[++capacity];
+        capacity--;
 
         for (int i = capacity; i >= 0; i--)
         {
@@ -70,7 +72,6 @@ public:
 
         return temp;
     }
-
     Polynomial operator-(const Polynomial &prev_arr)
     {
         int count = max(capacity, prev_arr.capacity);
@@ -102,60 +103,11 @@ public:
         return temp;
     }
 
-    Polynomial operator+=(const Polynomial &prev_arr)
-    {
-      
-        if (capacity >= prev_arr.capacity)
-        {
-            Polynomial temp(capacity);
-            for (int i = prev_arr.capacity; i >= 0; i--)
-            {
-                temp.arr[i] += prev_arr.arr[i];
-            }
-            delete[] arr;
-            arr = new double[capacity];
-
-            for (int i = capacity; i >= 0; i--)
-            {
-                arr[i] += temp.arr[i];
-            }
-
-            for (int i = prev_arr.capacity; i >= 0; i--)
-            {
-                arr[i] += prev_arr.arr[i] + temp.arr[i];
-            }
-        }
-        else
-        {
-            Polynomial temp(prev_arr.capacity);
-            for (int i = capacity; i >= 0; i--)
-            {
-                temp.arr[i] += this->arr[i];
-            }
-         
-            for (int i = prev_arr.capacity; i >= 0; i--)
-            {
-                temp.arr[i] += prev_arr.arr[i];
-            }
-
-            delete[] arr;
-            arr = new double[temp.capacity];
-            for (int i = temp.capacity; i >= 0; i--)
-            {
-                this->arr[i] += temp.arr[i];
-            }
-            this->capacity = temp.capacity;
-        }
-
-        // return temp;
-        return *this;
-    }
-
     Polynomial &operator=(const Polynomial &prev_arr)
     {
         capacity = prev_arr.capacity;
-        arr = new double[capacity];
-
+        arr = new double[++capacity];
+        capacity--;
         for (int i = capacity; i >= 0; i--)
         {
             arr[i] = prev_arr.arr[i];
@@ -163,7 +115,6 @@ public:
 
         return *this;
     }
-
     bool operator==(const Polynomial &prev_arr)
     {
         if (capacity != prev_arr.capacity)
@@ -210,6 +161,189 @@ public:
         }
     }
 
+    Polynomial operator+=(const Polynomial &prev_arr)
+    {
+
+        if (capacity >= prev_arr.capacity)
+        {
+            for (int i = prev_arr.capacity; i >= 0; i--)
+            {
+                arr[i] += prev_arr.arr[i];
+            }
+        }
+        else
+        {
+            Polynomial temp(prev_arr.capacity);
+
+            for (int i = prev_arr.capacity; i >= 0; i--)
+            {
+                temp.arr[i] = prev_arr.arr[i];
+            }
+
+            for (int i = capacity; i >= 0; i--)
+            {
+                temp.arr[i] += arr[i];
+            }
+            delete[] arr;
+            capacity = temp.capacity;
+            arr = new double[++capacity];
+            capacity--;
+            for (int i = temp.capacity; i >= 0; i--)
+            {
+                arr[i] = temp.arr[i];
+            }
+        }
+        return *this;
+    }
+
+    Polynomial operator-=(const Polynomial &prev_arr)
+    {
+
+        if (capacity >= prev_arr.capacity)
+        {
+            for (int i = prev_arr.capacity; i >= 0; i--)
+            {
+                arr[i] -= prev_arr.arr[i];
+            }
+        }
+        else
+        {
+            Polynomial temp(prev_arr.capacity);
+
+            for (int i = prev_arr.capacity; i >= 0; i--)
+            {
+                temp.arr[i] = -prev_arr.arr[i];
+            }
+
+            for (int i = capacity; i >= 0; i--)
+            {
+                temp.arr[i] += arr[i];
+            }
+
+            delete[] arr;
+            capacity = temp.capacity;
+            arr = new double[++capacity];
+            capacity--;
+            for (int i = temp.capacity; i >= 0; i--)
+            {
+                arr[i] = temp.arr[i];
+            }
+        }
+        return *this;
+    }
+
+    Polynomial operator/(const double &number)
+    {
+        for (int i = this->capacity; i >= 0; i--)
+        {
+            this->arr[i] /= number;
+        }
+        return *this;
+    }
+
+    Polynomial operator*(const double &number)
+    {
+        for (int i = this->capacity; i >= 0; i--)
+        {
+            this->arr[i] *= number;
+        }
+        return *this;
+    }
+
+    Polynomial operator*(const Polynomial &prev_arr)
+    {
+        int count = capacity + prev_arr.capacity;
+        Polynomial temp(count);
+        for (int i = 0; i <= count; i++)
+        {
+            temp.arr[i] = 0;
+        }
+        for (int i = capacity; i >= 0; i--)
+        {
+            for (int j = prev_arr.capacity; j >= 0; j--)
+            {
+                temp.arr[i + j] += (arr[i] * prev_arr.arr[j]);
+            }
+        }
+
+        return temp;
+    }
+
+    Polynomial operator/=(const double &number)
+    {
+        for (int i = this->capacity; i >= 0; i--)
+        {
+            this->arr[i] /= number;
+        }
+        return *this;
+    }
+
+    Polynomial operator*=(const Polynomial &prev_arr)
+    {
+        int count = capacity + prev_arr.capacity;
+        Polynomial temp(count);
+        for (int i = 0; i <= count; i++)
+        {
+            temp.arr[i] = 0;
+        }
+        for (int i = capacity; i >= 0; i--)
+        {
+            for (int j = prev_arr.capacity; j >= 0; j--)
+            {
+                temp.arr[i + j] += (arr[i] * prev_arr.arr[j]);
+            }
+        }
+
+        delete[] arr;
+        capacity = temp.capacity;
+        arr = new double[++capacity];
+        capacity--;
+        for (int i = temp.capacity; i >= 0; i--)
+        {
+            arr[i] = temp.arr[i];
+        }
+
+        return *this;
+    }
+    Polynomial operator*=(const double &number)
+    {
+        for (int i = this->capacity; i >= 0; i--)
+        {
+            this->arr[i] *= number;
+        }
+        return *this;
+    }
+
+    Polynomial operator>>(const double &number)
+    {
+        for (int i = this->capacity; i >= 0; i--)
+        {
+            arr[i] /= pow(2, number);
+        }
+        return *this;
+    }
+
+    Polynomial operator<<(const double &number)
+    {
+        for (int i = this->capacity; i >= 0; i--)
+        {
+            arr[i] *= pow(2, number);
+        }
+        return *this;
+    }
+
+    Polynomial operator[](const int &index)
+    {
+        if (index <= capacity)
+        {
+            cout << arr[index] << "X^" << index << endl;
+        }
+        else
+        {
+            cout << "Index out of range!";
+        }
+    }
+
     ~Polynomial()
     {
         delete[] arr;
@@ -238,11 +372,9 @@ public:
 int main(int argc, char *argv[])
 {
     Polynomial k;
-    Polynomial c;
-    // Polynomial i = k;
-    //  c = k;
+    // Polynomial c;
+    //   Polynomial i = k + c;
+    //   c = k;
 
-    c += k;
-
-    c.show();
+    k[2];
 }
